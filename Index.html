@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Phone Caller</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+            margin: 0;
+        }
+        .dialer-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 300px;
+            text-align: center;
+        }
+        #display {
+            width: 100%;
+            height: 50px;
+            font-size: 24px;
+            text-align: center;
+            border: none;
+            outline: none;
+            margin-bottom: 20px;
+            color: #333;
+            letter-spacing: 2px;
+        }
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        .key {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.2s;
+            margin: auto;
+        }
+        .key:active {
+            background-color: #e2e6ea;
+            transform: scale(0.95);
+        }
+        .call-btn {
+            background-color: #28a745;
+            color: white;
+            grid-column: span 3;
+            border-radius: 30px;
+            width: 100%;
+            height: 55px;
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        .call-btn:hover {
+            background-color: #218838;
+        }
+        .delete-btn {
+            color: #dc3545;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dialer-container">
+    <input type="text" id="display" placeholder="Number dial karein" readonly>
+    
+    <div class="keypad">
+        <button class="key" onclick="press('1')">1</button>
+        <button class="key" onclick="press('2')">2</button>
+        <button class="key" onclick="press('3')">3</button>
+        <button class="key" onclick="press('4')">4</button>
+        <button class="key" onclick="press('5')">5</button>
+        <button class="key" onclick="press('6')">6</button>
+        <button class="key" onclick="press('7')">7</button>
+        <button class="key" onclick="press('8')">8</button>
+        <button class="key" onclick="press('9')">9</button>
+        <button class="key" onclick="press('*')">*</button>
+        <button class="key" onclick="press('0')">0</button>
+        <button class="key" onclick="press('#')">#</button>
+        
+        <button class="call-btn" onclick="makeCall()">📞 Call</button>
+    </div>
+
+    <span class="delete-btn" onclick="backspace()">Mitaayein (Backspace)</span>
+</div>
+
+<script>
+    let display = document.getElementById('display');
+
+    function press(num) {
+        display.value += num;
+    }
+
+    function backspace() {
+        display.value = display.value.slice(0, -1);
+    }
+
+    function makeCall() {
+        let number = display.value;
+        if (number) {
+            // Yeh command asal mein phone dialer open kar degi
+            window.location.href = "tel:" + number;
+        } else {
+            alert("Kripya pehle ek number dial karein!");
+        }
+    }
+</script>
+
+</body>
+</html>
