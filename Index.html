@@ -2,131 +2,99 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Phone Caller</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f2f5;
-            margin: 0;
-        }
-        .dialer-container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            width: 300px;
-            text-align: center;
-        }
-        #display {
-            width: 100%;
-            height: 50px;
-            font-size: 24px;
-            text-align: center;
-            border: none;
-            outline: none;
-            margin-bottom: 20px;
-            color: #333;
-            letter-spacing: 2px;
-        }
-        .keypad {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
-        .key {
-            background-color: #f8f9fa;
-            border: 1px solid #ddd;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            font-size: 20px;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: 0.2s;
-            margin: auto;
-        }
-        .key:active {
-            background-color: #e2e6ea;
-            transform: scale(0.95);
-        }
-        .call-btn {
-            background-color: #28a745;
-            color: white;
-            grid-column: span 3;
-            border-radius: 30px;
-            width: 100%;
-            height: 55px;
-            margin-top: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-        }
-        .call-btn:hover {
-            background-color: #218838;
-        }
-        .delete-btn {
-            color: #dc3545;
-            font-size: 14px;
-            cursor: pointer;
-            margin-top: 10px;
-            display: block;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jump Pro - Social Update</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="dialer-container">
-    <input type="text" id="display" placeholder="Number dial karein" readonly>
-    
-    <div class="keypad">
-        <button class="key" onclick="press('1')">1</button>
-        <button class="key" onclick="press('2')">2</button>
-        <button class="key" onclick="press('3')">3</button>
-        <button class="key" onclick="press('4')">4</button>
-        <button class="key" onclick="press('5')">5</button>
-        <button class="key" onclick="press('6')">6</button>
-        <button class="key" onclick="press('7')">7</button>
-        <button class="key" onclick="press('8')">8</button>
-        <button class="key" onclick="press('9')">9</button>
-        <button class="key" onclick="press('*')">*</button>
-        <button class="key" onclick="press('0')">0</button>
-        <button class="key" onclick="press('#')">#</button>
-        
-        <button class="call-btn" onclick="makeCall()">📞 Call</button>
+    <div id="loginPage" class="page active">
+        <div class="card" style="margin-top: 100px;">
+            <i class="fas fa-rocket" style="font-size: 50px; color: var(--primary);"></i>
+            <h2>Jump Pro</h2>
+            <button onclick="login()" class="btn-main" style="margin-top:20px; background:#fff;">Continue with Google</button>
+        </div>
     </div>
 
-    <span class="delete-btn" onclick="backspace()">Mitaayein (Backspace)</span>
-</div>
+    <div id="jumpPage" class="page">
+        <div class="card">
+            <div id="seasonDisplay" class="season-badge">Loading Season...</div>
+            <div id="roundDisplay" style="color:#8b949e; font-size:12px; margin-bottom:15px;">Loading...</div>
+            <div id="height">0.00</div>
+            <div style="color: #484f58; font-size: 12px;">METERS (INSTANT)</div>
+            <div id="status" style="margin: 20px 0; color: #e3b341; font-weight: bold;">READY</div>
+            <div style="background:#0d1117; padding:10px; border-radius:10px; margin-bottom:20px;">
+                <div style="font-size:12px; color:#8b949e;">TODAY'S BEST</div>
+                <div id="todayBest" style="font-size:20px; font-weight:bold; color:#fff;">0.00m</div>
+            </div>
+            <button id="startBtn" class="btn-main">ACTIVATE SENSOR</button>
+        </div>
+    </div>
 
-<script>
-    let display = document.getElementById('display');
+    <div id="leaderboardPage" class="page">
+        <h2 style="margin-bottom: 5px;"><i class="fas fa-trophy"></i> Global Rank</h2>
+        <div style="font-size: 12px; color: #8b949e; margin-bottom: 15px;" id="lbSeasonName">Current Month</div>
+        <p style="font-size: 10px; color: #555; margin-top: -10px;">(Tap a player to view profile)</p>
+        <div id="lbList" class="lb-container"><p style="color:#555">Waiting for data...</p></div>
+    </div>
 
-    function press(num) {
-        display.value += num;
-    }
+    <div id="profilePage" class="page">
+        <div class="card">
+            <img id="pImg" style="width:80px; border-radius:50%; border:2px solid var(--primary);" src="">
+            <h2 id="pName" style="margin: 10px 0;">Name</h2>
+            <div class="uid-box">UID: <span id="pUid">---</span></div>
+            <div style="margin-top: 20px; background: #0d1117; padding: 20px; border-radius: 15px;">
+                <span style="font-size:11px; color:#555;">MONTHLY TOTAL</span><br>
+                <span id="pTotal" style="font-size:32px; font-weight:800; color:var(--primary);">0.00m</span>
+            </div>
+            <div style="margin-top: 30px; width: 100%;">
+                <h3 style="text-align: left; margin-bottom: 10px; border-bottom: 1px solid #30363d; padding-bottom: 10px;">
+                    <i class="fas fa-medal" style="color: #e3b341;"></i> Trophy Case
+                </h3>
+                <div id="awardsList" class="awards-grid">
+                    <p style="grid-column: span 2; color: #555; font-size: 12px;">No awards earned yet.</p>
+                </div>
+            </div>
+            <button onclick="logout()" style="margin-top:20px; background:none; border:none; color:#f85149; cursor:pointer;">Logout</button>
+        </div>
+    </div>
 
-    function backspace() {
-        display.value = display.value.slice(0, -1);
-    }
+    <div id="publicProfilePage" class="page" style="z-index: 2000;">
+        <div class="card">
+            <div style="width:100%; display:flex; justify-content:flex-start;">
+                <button onclick="closePublicProfile()" style="background:none; border:none; color:#8b949e; cursor:pointer; display:flex; align-items:center; gap:5px; font-size:14px;">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+            </div>
+            
+            <img id="ppImg" style="width:80px; border-radius:50%; border:2px solid #58a6ff; margin-top:15px;" src="">
+            <h2 id="ppName" style="margin: 10px 0;">Player</h2>
+            <div class="uid-box">UID: <span id="ppUid">---</span></div>
+            
+            <div style="margin-top: 20px; background: #0d1117; padding: 20px; border-radius: 15px; border: 1px solid #30363d;">
+                <span style="font-size:11px; color:#555;">MONTHLY SCORE</span><br>
+                <span id="ppTotal" style="font-size:32px; font-weight:800; color:#58a6ff;">0.00m</span>
+            </div>
 
-    function makeCall() {
-        let number = display.value;
-        if (number) {
-            // Yeh command asal mein phone dialer open kar degi
-            window.location.href = "tel:" + number;
-        } else {
-            alert("Kripya pehle ek number dial karein!");
-        }
-    }
-</script>
+            <div style="margin-top: 30px; width: 100%;">
+                <h3 style="text-align: left; margin-bottom: 10px; border-bottom: 1px solid #30363d; padding-bottom: 10px;">
+                    <i class="fas fa-trophy" style="color: #58a6ff;"></i> Awards
+                </h3>
+                <div id="ppAwardsList" class="awards-grid">
+                    <p style="grid-column: span 2; color: #555; font-size: 12px;">Loading awards...</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <nav class="nav-bar" id="bottomNav" style="display:none;">
+        <button class="nav-item active-nav" onclick="navTo('jumpPage', this)"><i class="fas fa-bolt"></i><span>JUMP</span></button>
+        <button class="nav-item" onclick="navTo('leaderboardPage', this)"><i class="fas fa-chart-line"></i><span>RANK</span></button>
+        <button class="nav-item" onclick="navTo('profilePage', this)"><i class="fas fa-user-circle"></i><span>PROFILE</span></button>
+    </nav>
+
+    <script type="module" src="script.js"></script>
 </body>
 </html>
+
